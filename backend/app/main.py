@@ -48,3 +48,12 @@ def redirect_url(url_key: str, db: Session = Depends(get_db)):
     db_url.clicks += 1
     db.commit()
     return RedirectResponse(db_url.long_url, status_code=302)
+
+@app.delete("/{url_key}")
+def delete_url(url_key: str, db: Session = Depends(get_db)):
+    db_url = crud.get_url_by_key(db, url_key)
+    if db_url is None:
+        raise HTTPException(status_code=404, detail ="URL not found")
+    db.delete(db_url)
+    db.commit()
+    return{"detail": "URL deleted successfully"}
