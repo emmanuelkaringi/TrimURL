@@ -9,6 +9,7 @@ class URLCreate(URLBase):
 class URL(URLBase):
     key: str
     short_url: str
+    clicks: int
 
     class Config:
         from_attributes =True
